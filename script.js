@@ -47,10 +47,19 @@ const expEl = document.getElementById("explanation");
 
 // ==========================
 // SOUND EFFECTS
+// (IMPORTANT: must be in /sounds folder on GitHub)
 // ==========================
-const correctSound = new Audio("sounds/correct.mp3");
-const wrongSound = new Audio("sounds/wrong.mp3");
-const timesUpSound = new Audio("sounds/timesup.mp3");
+const correctSound = new Audio("./sounds/correct.mp3");
+const wrongSound = new Audio("./sounds/wrong.mp3");
+const timesUpSound = new Audio("./sounds/timesup.mp3");
+
+// unlock sound (fix for browser blocking audio)
+function playSound(sound) {
+  sound.currentTime = 0;
+  sound.play().catch(err => {
+    console.log("Sound blocked until user interacts:", err);
+  });
+}
 
 // ==========================
 // START GAME
@@ -104,8 +113,7 @@ function checkAnswer(el, chosen, correct, explain) {
   if (chosen === correct) {
     el.classList.add("correct");
 
-    correctSound.currentTime = 0;
-    correctSound.play();
+    playSound(correctSound);
 
     score++;
     xp += 10;
@@ -113,8 +121,7 @@ function checkAnswer(el, chosen, correct, explain) {
   } else {
     el.classList.add("wrong");
 
-    wrongSound.currentTime = 0;
-    wrongSound.play();
+    playSound(wrongSound);
 
     streak = 0;
   }
@@ -143,8 +150,7 @@ function startTimer() {
     if (time <= 0) {
       clearInterval(timer);
 
-      timesUpSound.currentTime = 0;
-      timesUpSound.play();
+      playSound(timesUpSound);
 
       i++;
       loadQuestion();
