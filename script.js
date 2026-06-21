@@ -3,13 +3,12 @@
 // QUIZ GAME - FULL VERSION
 // ==========================
 // ✔ No repeat bug fixed
-// ✔ Full question bank included
-// ✔ Randomized questions + answers
+// ✔ Sound effects added
 // ✔ XP / Score / Streak system
 //
 
 // ==========================
-// QUESTION BANK (100+ CLEANED)
+// QUESTION BANK
 // ==========================
 const questions = [
   {q:"What is the capital of the Philippines?",a:["Cebu","Manila","Davao","Iloilo"],c:1,ex:"Manila is the capital of the Philippines."},
@@ -21,48 +20,7 @@ const questions = [
   {q:"Boiling point of water?",a:["50°C","100°C","150°C","200°C"],c:1,ex:"100°C."},
   {q:"Leap year days?",a:["365","366","364","360"],c:1,ex:"366 days."},
   {q:"Main language in Philippines?",a:["English","Filipino","Spanish","Chinese"],c:1,ex:"Filipino."},
-  {q:"Red planet?",a:["Venus","Mars","Mercury","Jupiter"],c:1,ex:"Mars."},
-
-  {q:"Largest ocean?",a:["Atlantic","Indian","Pacific","Arctic"],c:2,ex:"Pacific Ocean."},
-  {q:"Rainbow colors?",a:["5","6","7","8"],c:2,ex:"7 colors."},
-  {q:"Plants absorb?",a:["Oxygen","Nitrogen","Carbon Dioxide","Hydrogen"],c:2,ex:"Carbon dioxide."},
-  {q:"Father of computers?",a:["Newton","Charles Babbage","Einstein","Tesla"],c:1,ex:"Charles Babbage."},
-  {q:"Capital of Japan?",a:["Seoul","Beijing","Tokyo","Bangkok"],c:2,ex:"Tokyo."},
-  {q:"Square root of 64?",a:["6","7","8","9"],c:2,ex:"8."},
-  {q:"King of jungle?",a:["Elephant","Lion","Tiger","Bear"],c:1,ex:"Lion."},
-  {q:"Human bones?",a:["206","201","210","199"],c:0,ex:"206 bones."},
-  {q:"Smallest prime number?",a:["0","1","2","3"],c:2,ex:"2 is smallest prime."},
-  {q:"Currency of Philippines?",a:["Dollar","Peso","Yen","Ringgit"],c:1,ex:"Philippine Peso."},
-
-  {q:"Closest planet to Sun?",a:["Venus","Mercury","Earth","Mars"],c:1,ex:"Mercury."},
-  {q:"Capital of France?",a:["Berlin","Paris","Rome","Madrid"],c:1,ex:"Paris."},
-  {q:"Who discovered gravity?",a:["Einstein","Newton","Galileo","Tesla"],c:1,ex:"Newton."},
-  {q:"Largest mammal?",a:["Elephant","Blue whale","Shark","Giraffe"],c:1,ex:"Blue whale."},
-  {q:"Hours in a day?",a:["12","24","36","48"],c:1,ex:"24 hours."},
-
-  {q:"Capital of South Korea?",a:["Tokyo","Beijing","Seoul","Hanoi"],c:2,ex:"Seoul."},
-  {q:"10 x 10?",a:["100","110","90","120"],c:0,ex:"100."},
-  {q:"Organ that pumps blood?",a:["Brain","Liver","Heart","Lungs"],c:2,ex:"Heart."},
-  {q:"Longest river?",a:["Amazon","Nile","Yangtze","Mississippi"],c:1,ex:"Nile River."},
-  {q:"Capital of Italy?",a:["Venice","Milan","Rome","Naples"],c:2,ex:"Rome."},
-
-  {q:"Chemical symbol for Gold?",a:["Ag","Au","Gd","Go"],c:1,ex:"Au."},
-  {q:"Largest desert?",a:["Sahara","Gobi","Arctic","Kalahari"],c:0,ex:"Sahara."},
-  {q:"We live on?",a:["Mars","Venus","Earth","Jupiter"],c:2,ex:"Earth."},
-  {q:"Capital of Australia?",a:["Sydney","Canberra","Melbourne","Perth"],c:1,ex:"Canberra."},
-  {q:"Spider legs?",a:["6","8","10","12"],c:1,ex:"8 legs."},
-
-  // EXTRA QUESTIONS (from your 41–100 list condensed & cleaned)
-  {q:"Smallest planet?",a:["Mercury","Mars","Venus","Earth"],c:0,ex:"Mercury is smallest planet."},
-  {q:"Water freezes at?",a:["0°C","10°C","5°C","100°C"],c:0,ex:"0°C."},
-  {q:"Capital of UK?",a:["London","Paris","Rome","Berlin"],c:0,ex:"London."},
-  {q:"9 x 9?",a:["81","72","90","99"],c:0,ex:"81."},
-  {q:"Animal with trunk?",a:["Elephant","Lion","Tiger","Horse"],c:0,ex:"Elephant."},
-  {q:"Gas we breathe?",a:["Oxygen","Carbon","Hydrogen","Nitrogen"],c:0,ex:"Oxygen."},
-  {q:"Hardest natural substance?",a:["Diamond","Gold","Iron","Silver"],c:0,ex:"Diamond."},
-  {q:"Fastest bird?",a:["Falcon","Eagle","Sparrow","Owl"],c:0,ex:"Falcon."},
-  {q:"Capital of Germany?",a:["Berlin","Paris","Rome","Madrid"],c:0,ex:"Berlin."},
-  {q:"100 ÷ 10?",a:["10","20","5","15"],c:0,ex:"10."}
+  {q:"Red planet?",a:["Venus","Mars","Mercury","Jupiter"],c:1,ex:"Mars."}
 ];
 
 // ==========================
@@ -88,6 +46,13 @@ const aEl = document.getElementById("answers");
 const expEl = document.getElementById("explanation");
 
 // ==========================
+// SOUND EFFECTS
+// ==========================
+const correctSound = new Audio("sounds/correct.mp3");
+const wrongSound = new Audio("sounds/wrong.mp3");
+const timesUpSound = new Audio("sounds/timesup.mp3");
+
+// ==========================
 // START GAME
 // ==========================
 document.getElementById("startBtn").onclick = () => {
@@ -109,7 +74,6 @@ function loadQuestion() {
   aEl.innerHTML = "";
   expEl.textContent = "";
 
-  // shuffle answers
   let options = q.a.map((a, idx) => ({a, idx}));
   options.sort(() => Math.random() - 0.5);
 
@@ -135,15 +99,23 @@ function checkAnswer(el, chosen, correct, explain) {
   clearInterval(timer);
 
   document.querySelectorAll(".answer")
-  .forEach(b => b.style.pointerEvents = "none");
+    .forEach(b => b.style.pointerEvents = "none");
 
   if (chosen === correct) {
     el.classList.add("correct");
+
+    correctSound.currentTime = 0;
+    correctSound.play();
+
     score++;
     xp += 10;
     streak++;
   } else {
     el.classList.add("wrong");
+
+    wrongSound.currentTime = 0;
+    wrongSound.play();
+
     streak = 0;
   }
 
@@ -170,6 +142,10 @@ function startTimer() {
 
     if (time <= 0) {
       clearInterval(timer);
+
+      timesUpSound.currentTime = 0;
+      timesUpSound.play();
+
       i++;
       loadQuestion();
     }
@@ -202,9 +178,9 @@ function endGame() {
     `Score: ${score}/${pool.length}`;
 
   let badge = "Beginner";
-  if (score > 10) badge = "Smart Thinker";
-  if (score > 20) badge = "Quiz Master";
-  if (score > 30) badge = "Genius";
+  if (score > 3) badge = "Smart Thinker";
+  if (score > 5) badge = "Quiz Master";
+  if (score > 8) badge = "Genius";
 
   document.getElementById("badge").textContent =
     "Badge: " + badge;
@@ -225,5 +201,3 @@ document.getElementById("themeToggle").onclick = () => {
 if (localStorage.getItem("theme") === "light") {
   document.body.classList.add("light");
 }
-
-// ==========================
