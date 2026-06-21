@@ -49,9 +49,9 @@ const expEl = document.getElementById("explanation");
 // SOUND EFFECTS
 // (IMPORTANT: must be in /sounds folder on GitHub)
 // ==========================
-const correctSound = new Audio("./sounds/correct.mp3");
-const wrongSound = new Audio("./sounds/wrong.mp3");
-const timesUpSound = new Audio("./sounds/timesup.mp3");
+const correctSound = new Audio("sounds/correct.mp3");
+const wrongSound = new Audio("sounds/wrong.mp3");
+const timesUpSound = new Audio("sounds/timesup.mp3");
 
 // unlock sound (fix for browser blocking audio)
 function playSound(sound) {
