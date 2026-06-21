@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizVerse - Interactive Quiz Game</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- HEADER -->
+    <header class="top-bar">
+      <h1>QuizVerse</h1>
+
+      <div class="controls">
+        <button id="themeToggle">🌙</button>
+      </div>
+    </header>
+
+    <!-- START SCREEN -->
+    <section id="startScreen" class="screen active">
+      <h2>Welcome to QuizVerse</h2>
+      <p>Test your knowledge, earn XP, and become a Quiz Master!</p>
+
+      <button id="startBtn" class="primary-btn">Start Game</button>
+    </section>
+
+    <!-- QUIZ SCREEN -->
+    <section id="quizScreen" class="screen">
+
+      <div class="hud">
+        <div>Score: <span id="score">0</span></div>
+        <div>XP: <span id="xp">0</span></div>
+        <div>Level: <span id="level">1</span></div>
+      </div>
+
+      <div class="progress">
+        <div id="progressBar"></div>
+      </div>
+
+      <div class="timer">Time: <span id="time">15</span>s</div>
+
+      <div class="question-card">
+        <h2 id="question">Question</h2>
+        <div id="answers" class="answers"></div>
+
+        <p id="explanation" class="explanation"></p>
+      </div>
+
+      <div class="lifelines">
+        <button id="fifty">50/50</button>
+        <button id="skip">Skip</button>
+        <button id="timeBoost">+10s</button>
+      </div>
+
+      <div id="streak">Streak: 0</div>
+    </section>
+
+    <!-- RESULT SCREEN -->
+    <section id="resultScreen" class="screen">
+      <h2>Game Over 🎉</h2>
+
+      <p id="finalScore"></p>
+      <p id="badge"></p>
+
+      <button id="restartBtn" class="primary-btn">Play Again</button>
+    </section>
+
+    <footer>
+      <p>QuizVerse © 2026</p>
+    </footer>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
